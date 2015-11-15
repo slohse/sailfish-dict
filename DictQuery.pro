@@ -12,12 +12,13 @@
 # The name of your application
 TARGET = DictQuery
 
-CONFIG += sailfishapp
+CONFIG += sailfishapp c++11
 
 QT += webkitwidgets
 
 SOURCES += src/DictQuery.cpp \
-    src/dictcc.cpp
+    src/dictquerycore.cpp \
+    src/dictproviders/dictcc.cpp
 
 OTHER_FILES += qml/DictQuery.qml \
     qml/cover/CoverPage.qml \
@@ -41,5 +42,6 @@ CONFIG += sailfishapp_i18n
 TRANSLATIONS += translations/DictQuery-de.ts
 
 HEADERS += \
-    src/dictcc.h
+    src/dictquerycore.h \
+    src/dictproviders/dictcc.h
 

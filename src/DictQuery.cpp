@@ -6,7 +6,7 @@
 #include <sailfishapp.h>
 #include <QApplication>
 #include <QObject>
-#include "dictcc.h"
+#include "dictquerycore.h"
 
 
 int main(int argc, char *argv[])
@@ -30,11 +30,10 @@ int main(int argc, char *argv[])
 
     QObject * qmlRoot = view->rootObject();
 
-    QScopedPointer<DictCC> DictCCProvider(new DictCC());
+    QScopedPointer<DictQueryCore> QueryCore(new DictQueryCore());
 
-    //DictCCProvider.data()->Query();
-
-    QObject::connect(qmlRoot, SIGNAL(startSearch()), DictCCProvider.data(), SLOT(Query()));
+    QObject::connect(qmlRoot, SIGNAL(startSearch(QString)), QueryCore.data(), SLOT(Search(QString&)));
+    QObject::connect(qmlRoot, SIGNAL(searchTermChanged(QString)), QueryCore.data(), SLOT(TypingEvent(QString&)));
 
     view->show();
 

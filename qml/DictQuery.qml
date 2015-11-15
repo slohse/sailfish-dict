@@ -36,7 +36,8 @@ ApplicationWindow
 {
     id: rootWindow
 
-    signal startSearch()
+    signal startSearch(string term)
+    signal searchTermChanged(string term)
 
     Column {
         anchors.fill: parent
@@ -48,6 +49,7 @@ ApplicationWindow
 
         Component.onCompleted: {
             mainSearchBar.searchRequested.connect(startSearch)
+            mainSearchBar.searchTextChanged.connect(searchTermChanged)
         }
     }
 }
