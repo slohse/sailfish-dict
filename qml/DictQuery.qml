@@ -31,6 +31,8 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "pages"
+import "components"
+import "delegates"
 
 ApplicationWindow
 {
@@ -45,6 +47,10 @@ ApplicationWindow
         SearchBar {
             id: mainSearchBar
             onSearchRequested: console.log("SearchBar StartSearch clicked")
+        }
+
+        ResultsList {
+            id: results
         }
 
         Component.onCompleted: {

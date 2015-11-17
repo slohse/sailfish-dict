@@ -2,6 +2,16 @@
 #include <QDebug>
 #include <QWebElement>
 #include <QWebFrame>
+#include <QUrlQuery>
+
+QString const DictCC::UrlScheme("http");
+QString const DictCC::UrlHost("dict.cc");
+QString const DictCC::UrlQueryKeywordSearchTerm("s");
+
+// interesting javascript variables
+QString const DictCC::JSArrayLang1("c1Arr");
+QString const DictCC::JSArrayLang2("c2Arr");
+
 
 DictCC::DictCC(QObject *parent) :
     QObject(parent),
@@ -13,6 +23,9 @@ DictCC::DictCC(QObject *parent) :
 }
 
 
+//---------------------------------------------------------------------------------------
+// public slots
+//---------------------------------------------------------------------------------------
 
 void DictCC::Query(QString const & Term)
 {
@@ -54,7 +67,7 @@ void DictCC::PageFinishedLoading()
 
         break;
     case RequestType::QueryTerm:
-
+        ExtractTranslations();
         break;
     case RequestType::ChangeLanguageTuple:
 
@@ -64,6 +77,10 @@ void DictCC::PageFinishedLoading()
     }
 }
 
+
+//---------------------------------------------------------------------------------------
+// private methods
+//---------------------------------------------------------------------------------------
 
 QList<QString> DictCC::ParseLanguages()
 {
@@ -88,23 +105,43 @@ QList<QString> DictCC::ParseLanguages()
 
 void DictCC::ExtractTranslations()
 {
+    const QVariant Lang1Array = RenderedPage.mainFrame()->evaluateJavaScript(JSArrayLang1);
+    const QVariant Lang2Array = RenderedPage.mainFrame()->evaluateJavaScript(JSArrayLang2);
 
+    QStringList Lang1List = Lang1Array.toStringList();
+    QStringList Lang2List = Lang2Array.toStringList();
+
+    QList<SingleTranslationItem *> TranslationPairs;
+
+    for(int i = 0; i < Lang1List.length() && i < Lang2List.length(); ++i)
+    {
+        if(Lang1List.at(i) != QString("") && Lang2List.at(i) != QString(""))
+        {
+            TranslationPairs.append(new SingleTranslationItem(Lang1List.at(i), Lang2List.at(i)));
+        }
+    }
+
+    emit ResultReady(TranslationPairs);
 }
 
 void DictCC::ExtractSuggestions()
 {
-
+    // see js function "autosug_ku"
 }
 
 QUrl DictCC::BuildUrl(QString const & LanguageTuple, QString const & SearchTerm)
 {
-    QString Url("http://");
+    QString UrlDomain(LanguageTuple);
 
-    Url.append(LanguageTuple);
+    UrlDomain.append(UrlHost);
 
-    Url.append("dict.cc/?s=");
+    QUrl SearchUrl;
 
-    Url.append(SearchTerm);
+    SearchUrl.setScheme(UrlScheme);
+    SearchUrl.setHost(UrlDomain);
+    QUrlQuery Query;
+    Query.addQueryItem(UrlQueryKeywordSearchTerm, SearchTerm);
+    SearchUrl.setQuery(Query);
 
-    return QUrl(Url);
+    return SearchUrl;
 }

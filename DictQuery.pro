@@ -18,7 +18,8 @@ QT += webkitwidgets
 
 SOURCES += src/DictQuery.cpp \
     src/dictquerycore.cpp \
-    src/dictproviders/dictcc.cpp
+    src/dictproviders/dictcc.cpp \
+    src/dictproviders/singletranslationitem.cpp
 
 OTHER_FILES += qml/DictQuery.qml \
     qml/cover/CoverPage.qml \
@@ -29,7 +30,9 @@ OTHER_FILES += qml/DictQuery.qml \
     rpm/DictQuery.yaml \
     translations/*.ts \
     DictQuery.desktop \
-    qml/SearchBar.qml
+    qml/components/SearchBar.qml \
+    qml/components/ResultsList.qml
+
 
 # to disable building translations every time, comment out the
 # following CONFIG line
@@ -43,5 +46,11 @@ TRANSLATIONS += translations/DictQuery-de.ts
 
 HEADERS += \
     src/dictquerycore.h \
-    src/dictproviders/dictcc.h
+    src/dictproviders/dictcc.h \
+    src/dictproviders/singletranslationitem.h
+
+#DISTFILES += \
+
+DISTFILES += \
+    qml/delegates/SingleTranslation.qml
 

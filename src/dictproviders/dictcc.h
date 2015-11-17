@@ -5,6 +5,7 @@
 #include <QWebPage>
 #include <QString>
 #include <QList>
+#include "singletranslationitem.h"
 
 enum class RequestType {None, QueryLanguages, UpdateSuggestions, QueryTerm, ChangeLanguageTuple};
 
@@ -19,6 +20,7 @@ public:
 signals:
     void LanguagePoolUpdated(QList<QString> Languages);
     void SuggestionsUpdated(QList<QString> Suggestions);
+    void ResultReady(QList<SingleTranslationItem *> Results);
 
 public slots:
     void Query(QString const & Term);
@@ -40,6 +42,13 @@ private:
     QString SelectedLanguageTuple;
     QWebPage RenderedPage;
     RequestType LastRequest;
+
+    QString static const UrlScheme;
+    QString static const UrlHost;
+    QString static const UrlQueryKeywordSearchTerm;
+    QString static const JSArrayLang1;
+    QString static const JSArrayLang2;
+
 
 };
 
