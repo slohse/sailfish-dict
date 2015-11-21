@@ -8,11 +8,11 @@ Item {
 
     width: parent.width
 
-    property int cellWidth: isPortrait ? parent.width / 2 : parent.width
-
+    property int cellWidth:  parent.width / 2
     Rectangle {
         color: Theme.primaryColor
         width: cellWidth
+        height: childrenRect.height
         id: lang1Box
 
         Label {
@@ -23,11 +23,12 @@ Item {
     Rectangle {
         color: Theme.secondaryColor
         width: cellWidth
+        height: childrenRect.height
 
         // place the translation left of the source language box (landscape mode)
         // or below it (portrait mode)
-        anchors.left: isPortrait ? lang1Box.left : lang1Box.right
-        anchors.top: isPortrait ? lang1Box.bottom : lang1Box.top
+        anchors.left: lang1Box.left
+        anchors.top: lang1Box.bottom
 
         Label {
             text: lang2Term

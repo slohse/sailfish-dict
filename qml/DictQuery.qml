@@ -44,6 +44,8 @@ ApplicationWindow
     Column {
         anchors.fill: parent
 
+        spacing: Theme.paddingSmall
+
         SearchBar {
             id: mainSearchBar
             onSearchRequested: console.log("SearchBar StartSearch clicked")
@@ -51,7 +53,25 @@ ApplicationWindow
 
         ResultsList {
             id: results
+            height: rootWindow.height - mainSearchBar.height
+            width: parent.width
         }
+
+//        Rectangle {
+//            width: parent.width
+//            height: 100
+//            color: "green"
+//        }
+
+//        Rectangle {
+//            width: parent.width
+//            height: 20
+//            color: "hotpink"
+//        }
+
+//        ListView {
+
+//        }
 
         Component.onCompleted: {
             mainSearchBar.searchRequested.connect(startSearch)
