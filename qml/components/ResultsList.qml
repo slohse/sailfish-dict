@@ -24,16 +24,11 @@ Rectangle {
 
     Component {
         id: dummyComponent
-        Row {
-            spacing: 5
-            Text {
-                text: lang1Term
-                color: Theme.primaryColor
-            }
-            Text {
-                text: lang2Term
-                color: Theme.secondaryColor
-            }
+        Text {
+            text: "<i>" + lang1Term + "</i>" + " • " + lang2Term
+            width: parent.width
+            color: Theme.primaryColor
+            wrapMode: Text.Wrap
         }
     }
 
