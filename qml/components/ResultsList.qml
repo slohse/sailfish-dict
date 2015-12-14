@@ -1,8 +1,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-import "../delegates"
-
+import "../delegates/SingleTranslation"
 
 Rectangle {
     color: "transparent"
@@ -36,7 +35,7 @@ Rectangle {
         anchors.fill: parent
         //model: translationResultsModel
         model: dummyTranslationsModel
-        delegate: dummyComponent
+        delegate: Dictionary {}
     }
 
 }

@@ -30,8 +30,8 @@ OTHER_FILES += qml/DictQuery.qml \
     rpm/DictQuery.yaml \
     translations/*.ts \
     DictQuery.desktop \
-    qml/components/SearchBar.qml \
-    qml/components/ResultsList.qml
+    $$files(qml/components/*) \
+    $$files(qml/delegates/SingleTranslation/*)
 
 
 # to disable building translations every time, comment out the
@@ -49,8 +49,6 @@ HEADERS += \
     src/dictproviders/dictcc.h \
     src/dictproviders/singletranslationitem.h
 
-#DISTFILES += \
+DISTFILES +=
 
-DISTFILES += \
-    qml/delegates/SingleTranslation.qml
 

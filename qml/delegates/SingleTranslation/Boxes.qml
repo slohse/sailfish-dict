@@ -6,7 +6,7 @@ Item {
     property string lang1Term
     property string lang2Term
 
-    width: parent.width
+    //width: parent.width
 
     property int cellWidth:  parent.width / 2
     Rectangle {
