@@ -8,12 +8,15 @@ Item {
     property string lang2Term
 
     //width: parent.width
+    height: childrenRect.height
 
     Text {
-        text: "<i>" + lang1Term + "</i>" + " • " + lang2Term
+        id: innerText
         width: parent.width
+        text: "<i>" + lang1Term + "</i>" + " • " + lang2Term
         color: Theme.primaryColor
         wrapMode: Text.Wrap
     }
+
 }
 

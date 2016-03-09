@@ -11,13 +11,13 @@ Rectangle {
         id: dummyTranslationsModel
 
         ListElement {
-            lang1Term: "great tits"
-            lang2Term: "Kohlmeisen"
+            originTerm: "great tits"
+            translationTerm: "Kohlmeisen"
         }
 
         ListElement {
-            lang1Term: "interesting"
-            lang2Term: "Oh God, oh God, we're all going to die?"
+            originTerm: "interesting"
+            translationTerm: "Oh God, oh God, we're all going to die?"
         }
     }
 
@@ -35,7 +35,18 @@ Rectangle {
         anchors.fill: parent
         //model: translationResultsModel
         model: dummyTranslationsModel
-        delegate: Dictionary {}
+//        delegate: Dictionary
+//        {
+//            lang1Term: originTerm
+//            lang2Term: translationTerm
+//            width: parent.width
+//        }
+        delegate: Boxes
+        {
+            lang1Term: originTerm
+            lang2Term: translationTerm
+            width: parent.width
+        }
     }
 
 }
