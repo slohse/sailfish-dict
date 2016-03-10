@@ -33,20 +33,20 @@ Rectangle {
 
     ListView {
         anchors.fill: parent
-        //model: translationResultsModel
-        model: dummyTranslationsModel
-//        delegate: Dictionary
-//        {
-//            lang1Term: originTerm
-//            lang2Term: translationTerm
-//            width: parent.width
-//        }
-        delegate: Boxes
+        model: translationResultsModel
+//        model: dummyTranslationsModel
+        delegate: Dictionary
         {
-            lang1Term: originTerm
-            lang2Term: translationTerm
+            lang1Term: queryTerm
+            lang2Term: definition
             width: parent.width
         }
+//        delegate: Boxes
+//        {
+//            lang1Term: model.modelData.queryTerm
+//            lang2Term: model.modelData.definition
+//            width: parent.width
+//        }
     }
 
 }

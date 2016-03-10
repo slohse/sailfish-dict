@@ -5,34 +5,34 @@ SingleTranslationItem::SingleTranslationItem(QObject *parent) : QObject(parent)
 
 }
 
-SingleTranslationItem::SingleTranslationItem(QString const & lang1Term, QString const & lang2Term, QObject *parent) :
+SingleTranslationItem::SingleTranslationItem(QString const & queryTerm, QString const & definition, QObject *parent) :
     QObject(parent),
-    m_lang1Term(lang1Term),
-    m_lang2Term(lang2Term)
+    m_queryTerm(queryTerm),
+    m_definition(definition)
 {
 
 }
 
 
-void SingleTranslationItem::setLang1Term(QString lang1Term)
+void SingleTranslationItem::setQueryTerm(QString queryTerm)
 {
-    m_lang1Term = lang1Term;
-    emit lang1TermChanged(m_lang1Term);
+    m_queryTerm = queryTerm;
+    emit queryTermChanged(m_queryTerm);
 }
 
-void SingleTranslationItem::setLang2Term(QString lang2Term)
+void SingleTranslationItem::setDefinition(QString definition)
 {
-    m_lang2Term = lang2Term;
-    emit lang2TermChanged(m_lang2Term);
+    m_definition = definition;
+    emit definitionChanged(m_definition);
 }
 
-QString SingleTranslationItem::lang1Term() const
+QString SingleTranslationItem::queryTerm() const
 {
-    return m_lang1Term;
+    return m_queryTerm;
 }
 
-QString SingleTranslationItem::lang2Term() const
+QString SingleTranslationItem::definition() const
 {
-    return m_lang2Term;
+    return m_definition;
 }
 

@@ -17,7 +17,7 @@ DictQueryCore::~DictQueryCore()
     ClearTranslationsList();
 }
 
-QList<SingleTranslationItem *> & DictQueryCore::GetTranslationsList()
+QList<QObject *> & DictQueryCore::GetTranslationsList()
 {
     return TranslationsList;
 }
@@ -40,28 +40,34 @@ void DictQueryCore::TypingEvent(QString SearchTerm)
 
 void DictQueryCore::ReceiveTranslationResults(QList<SingleTranslationItem *> Translations)
 {
-    TranslationsList += Translations;
-    UpdateContext();
+//    TranslationsList += Translations;
 
     qDebug() << "TranslationsList:";
-    foreach (SingleTranslationItem * item, TranslationsList) {
-        qDebug() << item->lang1Term() << " <-> " << item->lang2Term();
+    for (SingleTranslationItem * item : Translations)
+    {
+        TranslationsList.append(dynamic_cast<QObject *>(item));
+        qDebug() << item->queryTerm() << " <-> " << item->definition();
     }
+    UpdateContext();
 }
 
 void DictQueryCore::ClearTranslationsList()
 {
-    SingleTranslationItem * deleteMe;
+    QObject * deleteMe;
     while(!TranslationsList.isEmpty())
     {
         deleteMe = TranslationsList.takeFirst();
-        delete deleteMe;
+        deleteMe->deleteLater();
     }
     UpdateContext();
 }
 
 void DictQueryCore::UpdateContext()
 {
+    qDebug() << "UpdateContext. Before:";
+    qDebug() << qmlContext->contextProperty("translationResultsModel");
     qmlContext->setContextProperty("translationResultsModel", QVariant::fromValue(TranslationsList));
+    qDebug() << "after:";
+    qDebug() << qmlContext->contextProperty("translationResultsModel");
 }
 

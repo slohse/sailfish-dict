@@ -16,7 +16,7 @@ public:
 
     virtual ~DictQueryCore();
 
-    QList<SingleTranslationItem *> & GetTranslationsList();
+    QList<QObject *> & GetTranslationsList();
 
 signals:
 
@@ -30,7 +30,7 @@ private slots:
 
 private:
     DictCC DictCCProvider;
-    QList<SingleTranslationItem *> TranslationsList;
+    QList<QObject *> TranslationsList;
     QQmlContext* qmlContext;
 
     void ClearTranslationsList();
