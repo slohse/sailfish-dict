@@ -1,14 +1,18 @@
 #include "dictquerycore.h"
+
+#include <QtAlgorithms>
 #include <QDebug>
 
 DictQueryCore::DictQueryCore(QQmlContext* context, QObject *parent) :
     QObject(parent),
-    DictCCProvider(parent),
-    TranslationsList(),
-    qmlContext(context)
+    _dictCcProvider(parent),
+    _translationsList(),
+    _qmlContext(context)
 {
-    QObject::connect(&DictCCProvider, SIGNAL(ResultReady(QList<SingleTranslationItem *>)),
+    QObject::connect(&_dictCcProvider, SIGNAL(ResultReady(QList<SingleTranslationItem *>)),
                      this, SLOT(ReceiveTranslationResults(QList<SingleTranslationItem *>)));
+    QObject::connect(&_dictCcProvider, SIGNAL(LanguagePoolUpdated(QSet<LanguageTuple*>)),
+                     this, SLOT(UpdateLanguageTuples(QSet<LanguageTuple*>)));
     UpdateContext();
 }
 
@@ -19,33 +23,44 @@ DictQueryCore::~DictQueryCore()
 
 QList<QObject *> & DictQueryCore::GetTranslationsList()
 {
-    return TranslationsList;
+    return _translationsList;
 }
 
-void DictQueryCore::ChangeLanguage(QString LanguageTuple)
+void DictQueryCore::ChangeLanguage(QString languageTuple)
 {
 
 }
 
-void DictQueryCore::Search(QString SearchTerm)
+void DictQueryCore::Search(QString searchTerm)
 {
     ClearTranslationsList();
-    DictCCProvider.Query(SearchTerm);
+    _dictCcProvider.Query(searchTerm);
 }
 
-void DictQueryCore::TypingEvent(QString SearchTerm)
+void DictQueryCore::TypingEvent(QString searchTerm)
 {
 
 }
 
-void DictQueryCore::ReceiveTranslationResults(QList<SingleTranslationItem *> Translations)
+void DictQueryCore::UpdateLanguageTuples(QSet<LanguageTuple *> languages)
+{
+    int numOfTuples = _availableLanguages.size();
+    _availableLanguages.unite(languages);
+
+    if(numOfTuples < _availableLanguages.size())
+    {
+        UpdateLanguageContext();
+    }
+}
+
+void DictQueryCore::ReceiveTranslationResults(QList<SingleTranslationItem *> translations)
 {
 //    TranslationsList += Translations;
 
     qDebug() << "TranslationsList:";
-    for (SingleTranslationItem * item : Translations)
+    for (SingleTranslationItem * item : translations)
     {
-        TranslationsList.append(dynamic_cast<QObject *>(item));
+        _translationsList.append(dynamic_cast<QObject *>(item));
         qDebug() << item->queryTerm() << " <-> " << item->definition();
     }
     UpdateContext();
@@ -54,9 +69,9 @@ void DictQueryCore::ReceiveTranslationResults(QList<SingleTranslationItem *> Tra
 void DictQueryCore::ClearTranslationsList()
 {
     QObject * deleteMe;
-    while(!TranslationsList.isEmpty())
+    while(!_translationsList.isEmpty())
     {
-        deleteMe = TranslationsList.takeFirst();
+        deleteMe = _translationsList.takeFirst();
         deleteMe->deleteLater();
     }
     UpdateContext();
@@ -65,9 +80,36 @@ void DictQueryCore::ClearTranslationsList()
 void DictQueryCore::UpdateContext()
 {
     qDebug() << "UpdateContext. Before:";
-    qDebug() << qmlContext->contextProperty("translationResultsModel");
-    qmlContext->setContextProperty("translationResultsModel", QVariant::fromValue(TranslationsList));
+    qDebug() << _qmlContext->contextProperty("translationResultsModel");
+    _qmlContext->setContextProperty("translationResultsModel", QVariant::fromValue(_translationsList));
     qDebug() << "after:";
-    qDebug() << qmlContext->contextProperty("translationResultsModel");
+    qDebug() << _qmlContext->contextProperty("translationResultsModel");
 }
 
+void DictQueryCore::ClearLanguagesList()
+{
+    QObject * deleteMe;
+    while(!_availableLanguagesListModel.isEmpty())
+    {
+        deleteMe = _availableLanguagesListModel.takeFirst();
+        deleteMe->deleteLater();
+    }
+}
+
+void DictQueryCore::UpdateLanguageContext()
+{
+    qDebug() << "UpdateContext. number of languages before:" << _availableLanguagesListModel.size();
+    ClearLanguagesList();
+    _availableLanguagesListModel = _availableLanguages.toList();
+
+    qSort(_availableLanguagesListModel.begin(), _availableLanguagesListModel.end(),
+          [](LanguageTuple const * const left, LanguageTuple const * const right) -> bool
+    {
+        return (*left) < (*right);
+    });
+
+    qDebug() << "UpdateContext. number of languages after:" << _availableLanguagesListModel.size();
+
+    _qmlContext->setContextProperty("languageSelectorModel",
+                                    QVariant::fromValue(_availableLanguagesListModel));
+}

@@ -5,8 +5,11 @@
 #include <QString>
 #include <QList>
 #include <QQmlContext>
+#include <QSet>
+
 #include "dictproviders/dictcc.h"
 #include "dictproviders/singletranslationitem.h"
+#include "dictproviders/languagetuple.h"
 
 class DictQueryCore : public QObject
 {
@@ -21,20 +24,26 @@ public:
 signals:
 
 public slots:
-    void ChangeLanguage(QString LanguageTuple);
-    void Search(QString SearchTerm);
-    void TypingEvent(QString SearchTerm);
+    void ChangeLanguage(QString languageTuple);
+    void Search(QString searchTerm);
+    void TypingEvent(QString searchTerm);
+    void UpdateLanguageTuples(QSet<LanguageTuple *> languages);
 
 private slots:
-    void ReceiveTranslationResults(QList<SingleTranslationItem *> Translations);
+    void ReceiveTranslationResults(QList<SingleTranslationItem *> translations);
 
 private:
-    DictCC DictCCProvider;
-    QList<QObject *> TranslationsList;
-    QQmlContext* qmlContext;
+    DictCC _dictCcProvider;
+    QList<QObject *> _translationsList;
+    QSet<LanguageTuple *> _availableLanguages;
+    QList<LanguageTuple *> _availableLanguagesListModel;
+    QQmlContext* _qmlContext;
 
     void ClearTranslationsList();
     void UpdateContext();
+    void ClearLanguagesList();
+    void UpdateLanguageContext();
+
 
 };
 

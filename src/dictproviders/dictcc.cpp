@@ -23,6 +23,12 @@ DictCC::DictCC(QObject *parent) :
 }
 
 
+//void DictCC::GetLanguages()
+//{
+
+//}
+
+
 //---------------------------------------------------------------------------------------
 // public slots
 //---------------------------------------------------------------------------------------
@@ -58,7 +64,7 @@ void DictCC::PageFinishedLoading()
 
     switch (LastRequest) {
     case RequestType::None:
-
+        emit LanguagePoolUpdated(ParseLanguages());
         break;
     case RequestType::QueryLanguages:
         emit LanguagePoolUpdated(ParseLanguages());
@@ -68,6 +74,7 @@ void DictCC::PageFinishedLoading()
         break;
     case RequestType::QueryTerm:
         ExtractTranslations();
+        ParseLanguages();
         break;
     case RequestType::ChangeLanguageTuple:
 
@@ -82,7 +89,7 @@ void DictCC::PageFinishedLoading()
 // private methods
 //---------------------------------------------------------------------------------------
 
-QList<QString> DictCC::ParseLanguages()
+QSet<LanguageTuple *> DictCC::ParseLanguages()
 {
     QWebElement PageRoot = RenderedPage.mainFrame()->documentElement();
 
@@ -91,12 +98,19 @@ QList<QString> DictCC::ParseLanguages()
 
     QWebElementCollection Languages = LanguageDropdown.findAll(QString("option"));
 
-    QList<QString> ParsedLanguages;
+    QSet<LanguageTuple *> ParsedLanguages;
 
-    foreach(QWebElement languageTuple, Languages)
+    foreach(QWebElement langTuple, Languages)
     {
-        qDebug() << "Tuple: " << languageTuple.attribute(QString("value")) << ", Label: " << languageTuple.toPlainText();
-        ParsedLanguages.append(languageTuple.attribute(QString("value")));
+        QString Label = langTuple.toPlainText();
+
+        // for now only use bidirectional tuples
+        if(Label.contains(QString("<>")))
+        {
+            QString CodeTuple = langTuple.attribute(QString("value"));
+            qDebug() << "Tuple: " << CodeTuple << ", Label: " << Label;
+            ParsedLanguages.insert(new LanguageTuple(CodeTuple));
+        }
     }
 
     return ParsedLanguages;
@@ -142,6 +156,8 @@ QUrl DictCC::BuildUrl(QString const & LanguageTuple, QString const & SearchTerm)
     QUrlQuery Query;
     Query.addQueryItem(UrlQueryKeywordSearchTerm, SearchTerm);
     SearchUrl.setQuery(Query);
+
+    qDebug() << SearchUrl.toDisplayString();
 
     return SearchUrl;
 }

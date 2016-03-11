@@ -6,6 +6,7 @@
 #include <QString>
 #include <QList>
 #include "singletranslationitem.h"
+#include "languagetuple.h"
 
 enum class RequestType {None, QueryLanguages, UpdateSuggestions, QueryTerm, ChangeLanguageTuple};
 
@@ -18,7 +19,7 @@ public:
     void GetLanguages();
 
 signals:
-    void LanguagePoolUpdated(QList<QString> Languages);
+    void LanguagePoolUpdated(QSet<LanguageTuple*> Languages);
     void SuggestionsUpdated(QList<QString> Suggestions);
     void ResultReady(QList<SingleTranslationItem *> Results);
 
@@ -33,7 +34,7 @@ private slots:
 
 private:
 
-    QList<QString> ParseLanguages();
+    QSet<LanguageTuple *> ParseLanguages();
     void ExtractTranslations();
     void ExtractSuggestions();
 

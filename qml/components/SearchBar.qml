@@ -34,8 +34,15 @@ Item {
         anchors.top: queryInput.bottom
 
         menu: ContextMenu {
-            MenuItem { text: "DE ↔ EN" }
-            MenuItem { text: "DE ↔ SV" }
+            Repeater {
+                width: parent.width
+                model: ListModel { id: languageSelectorModel; ListElement { prettyPrintLabel: "DE ↔ EN" } }
+                // TODO: hier weiter machen
+                delegate: MenuItem { text: model.prettyPrintLabel }
+            }
+
+//            MenuItem { text: "DE ↔ EN" }
+//            MenuItem { text: "DE ↔ SV" }
         }
 
         //onValueChanged: translationSearchBar.languageTupeChanged(menu.data)

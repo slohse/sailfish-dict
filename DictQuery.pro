@@ -19,7 +19,8 @@ QT += webkitwidgets
 SOURCES += src/DictQuery.cpp \
     src/dictquerycore.cpp \
     src/dictproviders/dictcc.cpp \
-    src/dictproviders/singletranslationitem.cpp
+    src/dictproviders/singletranslationitem.cpp \
+    src/dictproviders/languagetuple.cpp
 
 OTHER_FILES += qml/DictQuery.qml \
     qml/cover/CoverPage.qml \
@@ -47,7 +48,8 @@ TRANSLATIONS += translations/DictQuery-de.ts
 HEADERS += \
     src/dictquerycore.h \
     src/dictproviders/dictcc.h \
-    src/dictproviders/singletranslationitem.h
+    src/dictproviders/singletranslationitem.h \
+    src/dictproviders/languagetuple.h
 
 DISTFILES +=
 
