@@ -16,14 +16,20 @@ SingleTranslationItem::SingleTranslationItem(QString const & queryTerm, QString 
 
 void SingleTranslationItem::setQueryTerm(QString queryTerm)
 {
-    m_queryTerm = queryTerm;
-    emit queryTermChanged(m_queryTerm);
+    if(m_queryTerm != queryTerm)
+    {
+        m_queryTerm = queryTerm;
+        emit queryTermChanged(m_queryTerm);
+    }
 }
 
 void SingleTranslationItem::setDefinition(QString definition)
 {
-    m_definition = definition;
-    emit definitionChanged(m_definition);
+    if(m_definition != definition)
+    {
+        m_definition = definition;
+        emit definitionChanged(m_definition);
+    }
 }
 
 QString SingleTranslationItem::queryTerm() const
