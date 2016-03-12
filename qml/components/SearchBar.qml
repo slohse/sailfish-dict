@@ -30,15 +30,16 @@ Item {
 
     ComboBox {
         id: languageSelector
+        label: "Languages"
         anchors.left: parent.left
         anchors.top: queryInput.bottom
 
         menu: ContextMenu {
             Repeater {
                 width: parent.width
-                model: ListModel { id: languageSelectorModel; ListElement { prettyPrintLabel: "DE ↔ EN" } }
+                model: ListModel { id: languageSelectorModel }
                 // TODO: hier weiter machen
-                delegate: MenuItem { text: model.prettyPrintLabel }
+                delegate: MenuItem { text: model.getPrettyPrint }
             }
 
 //            MenuItem { text: "DE ↔ EN" }
