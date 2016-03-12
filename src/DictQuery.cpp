@@ -23,11 +23,9 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
 
-    QScopedPointer<QQuickView> view(SailfishApp::createView());
+    QSharedPointer<QQuickView> view(SailfishApp::createView());
 
-    QQmlContext* context = view->rootContext();
-
-    QScopedPointer<DictQueryCore> QueryCore(new DictQueryCore(context));
+    QScopedPointer<DictQueryCore> QueryCore(new DictQueryCore(view));
 
     view->setSource(SailfishApp::pathTo("qml/DictQuery.qml"));
 
