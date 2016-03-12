@@ -36,12 +36,13 @@ private:
     DictCC _dictCcProvider;
     QList<QObject *> _translationsList;
     QSet<LanguageTuple *> _availableLanguages;
-    QList<LanguageTuple *> _availableLanguagesListModel;
+    QList<QObject *> _availableLanguagesListModel;
     QQmlContext* _qmlContext;
 
     void ClearTranslationsList();
     void UpdateContext();
     void ClearLanguagesList();
+    void ClearLanguagesSet();
     void UpdateLanguageContext();
 
 

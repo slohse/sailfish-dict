@@ -19,6 +19,8 @@ DictQueryCore::DictQueryCore(QQmlContext* context, QObject *parent) :
 DictQueryCore::~DictQueryCore()
 {
     ClearTranslationsList();
+    ClearLanguagesSet();
+    ClearLanguagesList();
 }
 
 QList<QObject *> & DictQueryCore::GetTranslationsList()
@@ -44,12 +46,19 @@ void DictQueryCore::TypingEvent(QString searchTerm)
 
 void DictQueryCore::UpdateLanguageTuples(QSet<LanguageTuple *> languages)
 {
-    int numOfTuples = _availableLanguages.size();
-    _availableLanguages.unite(languages);
+    QSet<LanguageTuple *> TuplesAlreadyPresent(languages);
+    TuplesAlreadyPresent.intersect(_availableLanguages);
 
-    if(numOfTuples < _availableLanguages.size())
+    if(TuplesAlreadyPresent.size() != languages.size())
     {
+        _availableLanguages.unite(languages);
         UpdateLanguageContext();
+    }
+
+    // clean all languageTuples that did not make it into _availableLanguages
+    for(LanguageTuple * deleteMe : TuplesAlreadyPresent)
+    {
+        deleteMe->deleteLater();
     }
 }
 
@@ -96,16 +105,30 @@ void DictQueryCore::ClearLanguagesList()
     }
 }
 
+void DictQueryCore::ClearLanguagesSet()
+{
+    for(LanguageTuple * deleteMe : _availableLanguages)
+    {
+        deleteMe->deleteLater();
+    }
+
+    _availableLanguages.clear();
+}
+
 void DictQueryCore::UpdateLanguageContext()
 {
     qDebug() << "UpdateContext. number of languages before:" << _availableLanguagesListModel.size();
     ClearLanguagesList();
-    _availableLanguagesListModel = _availableLanguages.toList();
+    for(LanguageTuple * tuple : _availableLanguages)
+    {
+        _availableLanguagesListModel.append(dynamic_cast<QObject *>(tuple));
+    }
 
     qSort(_availableLanguagesListModel.begin(), _availableLanguagesListModel.end(),
-          [](LanguageTuple const * const left, LanguageTuple const * const right) -> bool
+          [](QObject const * const left, QObject const * const right) -> bool
     {
-        return (*left) < (*right);
+        return *(dynamic_cast<LanguageTuple const * const>(left))
+                < *(dynamic_cast<LanguageTuple const * const>(right));
     });
 
     qDebug() << "UpdateContext. number of languages after:" << _availableLanguagesListModel.size();
