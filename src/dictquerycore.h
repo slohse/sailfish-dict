@@ -22,6 +22,7 @@ public:
     QList<QObject *> & GetTranslationsList();
 
 signals:
+    void LanguageTuplesChanged(QList<QObject*> languageTuples);
 
 public slots:
     void ChangeLanguage(QString languageTuple);
@@ -36,7 +37,7 @@ private:
     DictCC _dictCcProvider;
     QList<QObject *> _translationsList;
     QSet<LanguageTuple *> _availableLanguages;
-    QList<LanguageTuple *> _availableLanguagesListModel;
+    QList<QObject *> _availableLanguagesListModel;
     QQmlContext* _qmlContext;
 
     void ClearTranslationsList();

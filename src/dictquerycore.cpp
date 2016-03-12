@@ -100,7 +100,11 @@ void DictQueryCore::UpdateLanguageContext()
 {
     qDebug() << "UpdateContext. number of languages before:" << _availableLanguagesListModel.size();
     ClearLanguagesList();
-    _availableLanguagesListModel = _availableLanguages.toList();
+
+    for(LanguageTuple tuple : _availableLanguages)
+    {
+        _availableLanguagesListModel.append(dynamic_cast<QObject *>(tuple));
+    }
 
     qSort(_availableLanguagesListModel.begin(), _availableLanguagesListModel.end(),
           [](LanguageTuple const * const left, LanguageTuple const * const right) -> bool
@@ -110,6 +114,5 @@ void DictQueryCore::UpdateLanguageContext()
 
     qDebug() << "UpdateContext. number of languages after:" << _availableLanguagesListModel.size();
 
-    _qmlContext->setContextProperty("languageSelectorModel",
-                                    QVariant::fromValue(_availableLanguagesListModel));
+    emit LanguageTuplesChanged(_availableLanguagesListModel);
 }

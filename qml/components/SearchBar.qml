@@ -50,7 +50,7 @@ Item {
 
     function updateLanguageSelection(languages)
     {
-        if(languages.length != languageSelectorModel.count)
+        if(languages.length !== languageSelectorModel.count)
         {
             var selectedTuple = ""
             if(languageSelector.currentIndex != -1)
