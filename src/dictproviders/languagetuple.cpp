@@ -22,6 +22,8 @@ void LanguageTuple::setTuple(QString tuple)
         return;
     }
 
+    tuple = tuple.toLower();
+
     _lang1 = tuple.mid(0, 2);
     _lang2 = tuple.mid(2, 2);
 
@@ -42,7 +44,7 @@ QString LanguageTuple::getTuple() const
 
 QString LanguageTuple::getPrettyPrint() const
 {
-    return _lang1 + " ↔ " + _lang2;
+    return _lang1.toUpper() + " ↔ " + _lang2.toUpper();
 }
 
 

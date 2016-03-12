@@ -38,7 +38,6 @@ Item {
             Repeater {
                 width: parent.width
                 model: ListModel { id: languageSelectorModel }
-                // TODO: hier weiter machen
                 delegate: MenuItem { text: model.getPrettyPrint }
             }
 
@@ -47,5 +46,23 @@ Item {
         }
 
         //onValueChanged: translationSearchBar.languageTupeChanged(menu.data)
+    }
+
+    function updateLanguageSelection(languages)
+    {
+        if(languages.length != languageSelectorModel.count)
+        {
+            var selectedTuple = ""
+            if(languageSelector.currentIndex != -1)
+            {
+                selectedTuple = languageSelectorModel.get(languageSelector.currentIndex).getTuple
+            }
+
+            languageSelectorModel.clear()
+            for(var i = 0; i < languages.length; i++)
+            {
+                languageSelectorModel.append(languages[i])
+            }
+        }
     }
 }
