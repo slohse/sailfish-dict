@@ -39,7 +39,7 @@ Item {
                 width: parent.width
                 model: ListModel { id: languageSelectorModel }
                 // TODO: hier weiter machen
-                delegate: MenuItem { text: model.getPrettyPrint }
+                delegate: MenuItem { text: modelData.getPrettyPrint }
             }
 
 //            MenuItem { text: "DE ↔ EN" }
