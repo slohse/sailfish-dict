@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+import LanguageTuple 1.0
+
 Item {
 
     id: translationSearchBar
@@ -50,11 +52,15 @@ Item {
 
     function updateLanguageSelection(languages)
     {
+        console.log("updateLanguageSelection")
         if(languages.length !== languageSelectorModel.count)
         {
+            console.log("updateLanguageSelection: length differs")
             var selectedTuple = ""
+            var selectedIndex = -1
             if(languageSelector.currentIndex != -1)
             {
+                console.log("updateLanguageSelection: Index != -1")
                 selectedTuple = languageSelectorModel.get(languageSelector.currentIndex).getTuple
             }
 
@@ -62,6 +68,19 @@ Item {
             for(var i = 0; i < languages.length; i++)
             {
                 languageSelectorModel.append(languages[i])
+                if(languages[i].getTuple === selectedTuple)
+                {
+                    selectedIndex = i
+                }
+            }
+
+            if(selectedIndex !== -1)
+            {
+                languageSelector.currentIndex = selectedIndex
+            }
+            else
+            {
+                languageSelector.currentIndex = 0
             }
         }
     }

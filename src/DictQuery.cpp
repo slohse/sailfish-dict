@@ -23,6 +23,8 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
 
+    qmlRegisterType<LanguageTuple>("LanguageTuple", 1, 0, "LanguageTuple");
+
     QSharedPointer<QQuickView> view(SailfishApp::createView());
 
     QScopedPointer<DictQueryCore> QueryCore(new DictQueryCore(view));
@@ -33,6 +35,9 @@ int main(int argc, char *argv[])
 
     QObject::connect(qmlRoot, SIGNAL(startSearch(QString)), QueryCore.data(), SLOT(Search(QString)));
     QObject::connect(qmlRoot, SIGNAL(searchTermChanged(QString)), QueryCore.data(), SLOT(TypingEvent(QString)));
+    QObject::connect(QueryCore.data(), SIGNAL(LanguageTuplesChanged(QObjectList)),
+                     qmlRoot, SLOT(updateAvailableLanguages(QVariant)));
+
 
     view->show();
 

@@ -15,8 +15,6 @@ public:
     explicit LanguageTuple(QObject *parent = 0);
     LanguageTuple(QString tuple, QObject *parent = 0);
 
-    void setTuple(QString tuple);
-
     QString getTuple() const;
     QString getPrettyPrint() const;
 
@@ -35,6 +33,7 @@ signals:
     void prettyPrintChanged(QString);
 
 public slots:
+    void setTuple(QString tuple);
 
 private:
     QString _lang1;

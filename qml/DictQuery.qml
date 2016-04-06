@@ -78,6 +78,13 @@ ApplicationWindow
             mainSearchBar.searchTextChanged.connect(searchTermChanged)
         }
     }
+
+    function updateAvailableLanguages(languages)
+    {
+        console.log("updateAvailableLanguages")
+        mainSearchBar.updateLanguageSelection(languages)
+    }
 }
+
 
 

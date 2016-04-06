@@ -136,12 +136,12 @@ void DictQueryCore::UpdateLanguageContext()
 
     qDebug() << "UpdateContext. number of languages after:" << _availableLanguagesListModel.size();
 
-    QObject * searchBar = _view->rootObject()->findChild<QObject *>("translationSearchBar");
-    if(searchBar)
-    {
-        // TODO: continue here
-        //QMetaObject::invokeMethod(searchBar, "updateLanguageSelection", Q_ARG(QOB))
-    }
+//    QObject * searchBar = _view->rootObject()->findChild<QObject *>("translationSearchBar");
+//    if(searchBar)
+//    {
+//        // TODO: continue here
+//        //QMetaObject::invokeMethod(searchBar, "updateLanguageSelection", Q_ARG(QOB))
+//    }
 
-    //emit LanguageTuplesChanged(_availableLanguagesListModel);
+    emit LanguageTuplesChanged(_availableLanguagesListModel);
 }
