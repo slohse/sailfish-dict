@@ -102,8 +102,11 @@ void DictQueryCore::ClearLanguagesList()
     QObject * deleteMe;
     while(!_availableLanguagesListModel.isEmpty())
     {
-        deleteMe = _availableLanguagesListModel.takeFirst();
-        deleteMe->deleteLater();
+        deleteMe = _availableLanguagesListModel.takeFirst().value<LanguageTuple *>();
+        if(deleteMe)
+        {
+            deleteMe->deleteLater();
+        }
     }
 }
 
@@ -124,14 +127,14 @@ void DictQueryCore::UpdateLanguageContext()
 
     for(LanguageTuple * tuple : _availableLanguages)
     {
-        _availableLanguagesListModel.append(dynamic_cast<QObject *>(tuple));
+        _availableLanguagesListModel.append(QVariant::fromValue(tuple));
     }
 
     qSort(_availableLanguagesListModel.begin(), _availableLanguagesListModel.end(),
-          [](QObject const * const left, QObject const * const right) -> bool
+          [](QVariant const left, QVariant const right) -> bool
     {
-        return *(dynamic_cast<LanguageTuple const * const>(left))
-                < *(dynamic_cast<LanguageTuple const * const>(right));
+        return *((left.value<LanguageTuple  * >()))
+                < *((right.value<LanguageTuple  * >()));
     });
 
     qDebug() << "UpdateContext. number of languages after:" << _availableLanguagesListModel.size();

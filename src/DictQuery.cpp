@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
     QObject::connect(qmlRoot, SIGNAL(startSearch(QString)), QueryCore.data(), SLOT(Search(QString)));
     QObject::connect(qmlRoot, SIGNAL(searchTermChanged(QString)), QueryCore.data(), SLOT(TypingEvent(QString)));
-    QObject::connect(QueryCore.data(), SIGNAL(LanguageTuplesChanged(QObjectList)),
+    QObject::connect(QueryCore.data(), SIGNAL(LanguageTuplesChanged(QVariant)),
                      qmlRoot, SLOT(updateAvailableLanguages(QVariant)));
 
 
