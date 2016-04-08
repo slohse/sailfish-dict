@@ -58,7 +58,7 @@ Item {
             console.log("updateLanguageSelection: length differs")
             var selectedTuple = ""
             var selectedIndex = -1
-            if(languageSelector.currentIndex != -1)
+            if(languageSelector.currentIndex !== -1 && languageSelectorModel.count !== 0)
             {
                 console.log("updateLanguageSelection: Index != -1")
                 selectedTuple = languageSelectorModel.get(languageSelector.currentIndex).getTuple
@@ -67,8 +67,9 @@ Item {
             languageSelectorModel.clear()
             for(var i = 0; i < languages.length; i++)
             {
-                languageSelectorModel.append(languages[i])
-                if(languages[i].getTuple === selectedTuple)
+                console.log("languages[i].objectName:", languages[i].objectName)
+                languageSelectorModel.append(languages[i].tuple)
+                if(languages[i].tuple === selectedTuple)
                 {
                     selectedIndex = i
                 }
