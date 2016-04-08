@@ -37,9 +37,9 @@ Item {
         menu: ContextMenu {
             Repeater {
                 width: parent.width
-                model: ListModel { id: languageSelectorModel }
+                model: languageSelectorModel
                 // TODO: hier weiter machen
-                delegate: MenuItem { text: modelData.getPrettyPrint }
+                MenuItem { text: model.prettyPrint }
             }
 
 //            MenuItem { text: "DE ↔ EN" }
