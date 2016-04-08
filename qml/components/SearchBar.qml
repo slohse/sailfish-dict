@@ -12,6 +12,8 @@ Item {
     anchors.left: parent.left
     anchors.right: parent.right
 
+    property var languageSelectorModel: []
+
     height: childrenRect.height
 
     TextField {
@@ -39,8 +41,8 @@ Item {
         menu: ContextMenu {
             Repeater {
                 width: parent.width
-                model: ListModel { id: languageSelectorModel }
-                delegate: MenuItem { text: model.getPrettyPrint }
+                model: languageSelectorModel
+                delegate: MenuItem { text: model.prettyPrint }
             }
 
 //            MenuItem { text: "DE ↔ EN" }
@@ -53,22 +55,23 @@ Item {
     function updateLanguageSelection(languages)
     {
         console.log("updateLanguageSelection")
-        if(languages.length !== languageSelectorModel.count)
+        console.log("length of 'languages':",  languages.length, ", languageSelectorModel.count: ", languageSelectorModel.length)
+        if(languages.length !== languageSelectorModel.length)
         {
             console.log("updateLanguageSelection: length differs")
             var selectedTuple = ""
             var selectedIndex = -1
-            if(languageSelector.currentIndex !== -1 && languageSelectorModel.count !== 0)
+            console.log("languageSelector.currentIndex:", languageSelector.currentIndex)
+            if(languageSelector.currentIndex !== -1 && languageSelectorModel.length !== 0)
             {
                 console.log("updateLanguageSelection: Index != -1")
-                selectedTuple = languageSelectorModel.get(languageSelector.currentIndex).getTuple
+                selectedTuple = languageSelectorModel[languageSelector.currentIndex].tuple
             }
 
-            languageSelectorModel.clear()
+            languageSelectorModel = []
             for(var i = 0; i < languages.length; i++)
             {
-                console.log("languages[i].objectName:", languages[i].objectName)
-                languageSelectorModel.append(languages[i].tuple)
+                languageSelectorModel.push(languages[i].tuple)
                 if(languages[i].tuple === selectedTuple)
                 {
                     selectedIndex = i
