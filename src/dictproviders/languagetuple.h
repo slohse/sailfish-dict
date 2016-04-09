@@ -13,6 +13,7 @@ class LanguageTuple : public QObject
 
 public:
     explicit LanguageTuple(QObject *parent = 0);
+    LanguageTuple(LanguageTuple const & other);
     LanguageTuple(QString tuple, QObject *parent = 0);
 
     void setTuple(QString tuple);
@@ -40,6 +41,8 @@ private:
     QString _lang1;
     QString _lang2;
 };
+
+Q_DECLARE_METATYPE(LanguageTuple)
 
 bool operator==(QString lhs, LanguageTuple rhs);
 bool operator!=(QString lhs, LanguageTuple rhs);

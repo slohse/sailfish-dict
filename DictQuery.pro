@@ -24,7 +24,6 @@ SOURCES += src/DictQuery.cpp \
 
 OTHER_FILES += qml/DictQuery.qml \
     qml/cover/CoverPage.qml \
-    qml/pages/FirstPage.qml \
     qml/pages/SecondPage.qml \
     rpm/DictQuery.changes.in \
     rpm/DictQuery.spec \
@@ -51,6 +50,7 @@ HEADERS += \
     src/dictproviders/singletranslationitem.h \
     src/dictproviders/languagetuple.h
 
-DISTFILES +=
+DISTFILES += \
+    qml/pages/MainPage.qml
 
 

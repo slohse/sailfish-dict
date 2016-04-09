@@ -8,6 +8,13 @@ LanguageTuple::LanguageTuple(QObject *parent) :
 
 }
 
+LanguageTuple::LanguageTuple(LanguageTuple const & other) :
+    QObject(other.parent())
+{
+    _lang1 = other._lang1;
+    _lang2 = other._lang2;
+}
+
 LanguageTuple::LanguageTuple(QString tuple, QObject *parent) :
     QObject(parent)
 {

@@ -30,42 +30,35 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../components"
+import "../delegates"
 
 
 Page {
-    id: page
+    id: mainPage
 
-    // To enable PullDownMenu, place our content in a SilicaFlickable
-    SilicaFlickable {
+    signal startSearch(string term)
+    signal searchTermChanged(string term)
+
+    Column {
         anchors.fill: parent
 
-        // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
-        PullDownMenu {
-            MenuItem {
-                text: qsTr("Show Page 2")
-                onClicked: pageStack.push(Qt.resolvedUrl("SecondPage.qml"))
-            }
+        spacing: Theme.paddingSmall
+
+        SearchBar {
+            id: mainSearchBar
+            onSearchRequested: console.log("SearchBar StartSearch clicked")
         }
 
-        // Tell SilicaFlickable the height of its content.
-        contentHeight: column.height
+        ResultsList {
+            id: results
+            height: rootWindow.height - mainSearchBar.height
+            width: parent.width
+        }
 
-        // Place our content in a Column.  The PageHeader is always placed at the top
-        // of the page, followed by our content.
-        Column {
-            id: column
-
-            width: page.width
-            spacing: Theme.paddingLarge
-            PageHeader {
-                title: qsTr("UI Template")
-            }
-            Label {
-                x: Theme.paddingLarge
-                text: qsTr("Hello Sailors")
-                color: Theme.secondaryHighlightColor
-                font.pixelSize: Theme.fontSizeExtraLarge
-            }
+        Component.onCompleted: {
+            mainSearchBar.searchRequested.connect(startSearch)
+            mainSearchBar.searchTextChanged.connect(searchTermChanged)
         }
     }
 }

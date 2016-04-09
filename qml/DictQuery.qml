@@ -31,53 +31,16 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "pages"
-import "components"
-import "delegates"
 
 ApplicationWindow
 {
     id: rootWindow
 
-    signal startSearch(string term)
-    signal searchTermChanged(string term)
+    initialPage: Qt.resolvedUrl("pages/MainPage.qml")
+//    cover: Qt.resolvedUrl("pages/Cover.qml")
+    allowedOrientations: Orientation.All
+    _defaultPageOrientations: Orientation.All
 
-    Column {
-        anchors.fill: parent
-
-        spacing: Theme.paddingSmall
-
-        SearchBar {
-            id: mainSearchBar
-            onSearchRequested: console.log("SearchBar StartSearch clicked")
-        }
-
-        ResultsList {
-            id: results
-            height: rootWindow.height - mainSearchBar.height
-            width: parent.width
-        }
-
-//        Rectangle {
-//            width: parent.width
-//            height: 100
-//            color: "green"
-//        }
-
-//        Rectangle {
-//            width: parent.width
-//            height: 20
-//            color: "hotpink"
-//        }
-
-//        ListView {
-
-//        }
-
-        Component.onCompleted: {
-            mainSearchBar.searchRequested.connect(startSearch)
-            mainSearchBar.searchTextChanged.connect(searchTermChanged)
-        }
-    }
 }
 
 

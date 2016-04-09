@@ -23,6 +23,8 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
 
+    qmlRegisterType<LanguageTuple>("LanguageTuple", 1, 0, "LanguageTuple");
+
     QScopedPointer<QQuickView> view(SailfishApp::createView());
 
     QQmlContext* context = view->rootContext();
@@ -32,9 +34,10 @@ int main(int argc, char *argv[])
     view->setSource(SailfishApp::pathTo("qml/DictQuery.qml"));
 
     QObject * qmlRoot = view->rootObject();
+    QObject * mainPage = qmlRoot->findChild<QObject *>("mainPage");
 
-    QObject::connect(qmlRoot, SIGNAL(startSearch(QString)), QueryCore.data(), SLOT(Search(QString)));
-    QObject::connect(qmlRoot, SIGNAL(searchTermChanged(QString)), QueryCore.data(), SLOT(TypingEvent(QString)));
+    QObject::connect(mainPage, SIGNAL(startSearch(QString)), QueryCore.data(), SLOT(Search(QString)));
+    QObject::connect(mainPage, SIGNAL(searchTermChanged(QString)), QueryCore.data(), SLOT(TypingEvent(QString)));
 
     view->show();
 

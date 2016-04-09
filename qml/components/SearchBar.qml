@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+import LanguageTuple 1.0
+
 Item {
 
     id: translationSearchBar
@@ -11,6 +13,8 @@ Item {
     anchors.right: parent.right
 
     height: childrenRect.height
+
+//    property var languageSelectorModel : [ { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"} ]
 
     TextField {
         id: queryInput
@@ -39,7 +43,7 @@ Item {
                 width: parent.width
                 model: languageSelectorModel
                 // TODO: hier weiter machen
-                MenuItem { text: model.prettyPrint }
+                MenuItem { text: modelData.prettyPrint }
             }
 
 //            MenuItem { text: "DE ↔ EN" }
