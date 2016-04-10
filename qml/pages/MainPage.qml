@@ -61,6 +61,16 @@ Page {
             mainSearchBar.searchTextChanged.connect(searchTermChanged)
         }
     }
+
+    function updateLanguages(languages)
+    {
+        mainSearchBar.updateLanguages(languages)
+    }
+
+    function updateResults(newResults)
+    {
+        results.updateResults(newResults)
+    }
 }
 
 

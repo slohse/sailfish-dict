@@ -7,6 +7,8 @@ Rectangle {
     color: "transparent"
     id: resultsList
 
+    property var translationResultsModel : []
+
     ListView {
         anchors.fill: parent
         model: translationResultsModel
@@ -22,6 +24,11 @@ Rectangle {
 //            lang2Term: model.modelData.definition
 //            width: parent.width
 //        }
+    }
+
+    function updateResults(results)
+    {
+        translationResultsModel = results
     }
 
 }

@@ -14,6 +14,8 @@ Item {
 
     height: childrenRect.height
 
+    property var languageSelectorModel : []
+
 //    property var languageSelectorModel : [ { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"} ]
 
     TextField {
@@ -51,5 +53,10 @@ Item {
         }
 
         //onValueChanged: translationSearchBar.languageTupeChanged(menu.data)
+    }
+
+    function updateLanguages(languages)
+    {
+        languageSelectorModel = languages
     }
 }

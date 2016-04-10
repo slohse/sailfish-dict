@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 
     QQmlContext* context = view->rootContext();
 
-    QScopedPointer<DictQueryCore> QueryCore(new DictQueryCore(context));
+    QScopedPointer<DictQueryCore> QueryCore(new DictQueryCore());
 
     view->setSource(SailfishApp::pathTo("qml/DictQuery.qml"));
 
@@ -38,6 +38,8 @@ int main(int argc, char *argv[])
 
     QObject::connect(mainPage, SIGNAL(startSearch(QString)), QueryCore.data(), SLOT(Search(QString)));
     QObject::connect(mainPage, SIGNAL(searchTermChanged(QString)), QueryCore.data(), SLOT(TypingEvent(QString)));
+    QObject::connect(QueryCore.data(), SIGNAL(UpdateLanguages(QVariant)), mainPage, SLOT(UpdateLanguages(QVariant)));
+    QObject::connect(QueryCore.data(), SIGNAL(UpdateResults(QVariant)), mainPage, SLOT(UpdateResults(QVariant)));
 
     view->show();
 

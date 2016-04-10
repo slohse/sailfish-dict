@@ -15,13 +15,15 @@ class DictQueryCore : public QObject
 {
     Q_OBJECT
 public:
-    explicit DictQueryCore(QQmlContext* context, QObject *parent = 0);
+    explicit DictQueryCore(QObject *parent = 0);
 
     virtual ~DictQueryCore();
 
     QList<QObject *> & GetTranslationsList();
 
 signals:
+    void UpdateTranslations(QVariant translations);
+    void UpdateLanguages(QVariant Languages);
 
 public slots:
     void ChangeLanguage(QString languageTuple);
@@ -37,15 +39,12 @@ private:
     QList<QObject *> _translationsList;
     QSet<LanguageTuple *> _availableLanguages;
     QList<QObject *> _availableLanguagesListModel;
-    QQmlContext* _qmlContext;
 
     void ClearTranslationsList();
     void UpdateContext();
     void ClearLanguagesList();
     void ClearLanguagesSet();
     void UpdateLanguageContext();
-
-
 };
 
 #endif // DICTQUERYCORE_H

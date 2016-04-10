@@ -3,17 +3,17 @@
 #include <QtAlgorithms>
 #include <QDebug>
 
-DictQueryCore::DictQueryCore(QQmlContext* context, QObject *parent) :
+DictQueryCore::DictQueryCore(QObject *parent) :
     QObject(parent),
     _dictCcProvider(parent),
-    _translationsList(),
-    _qmlContext(context)
+    _translationsList()
 {
     QObject::connect(&_dictCcProvider, SIGNAL(ResultReady(QList<SingleTranslationItem *>)),
                      this, SLOT(ReceiveTranslationResults(QList<SingleTranslationItem *>)));
     QObject::connect(&_dictCcProvider, SIGNAL(LanguagePoolUpdated(QSet<LanguageTuple*>)),
                      this, SLOT(UpdateLanguageTuples(QSet<LanguageTuple*>)));
-    UpdateContext();
+
+    emit UpdateTranslations(QVariant::fromValue(_translationsList));
 }
 
 DictQueryCore::~DictQueryCore()
@@ -72,7 +72,8 @@ void DictQueryCore::ReceiveTranslationResults(QList<SingleTranslationItem *> tra
         _translationsList.append(dynamic_cast<QObject *>(item));
         qDebug() << item->queryTerm() << " <-> " << item->definition();
     }
-    UpdateContext();
+
+    emit UpdateTranslations(QVariant::fromValue(_translationsList));
 }
 
 void DictQueryCore::ClearTranslationsList()
@@ -83,16 +84,8 @@ void DictQueryCore::ClearTranslationsList()
         deleteMe = _translationsList.takeFirst();
         deleteMe->deleteLater();
     }
-    UpdateContext();
-}
 
-void DictQueryCore::UpdateContext()
-{
-    qDebug() << "UpdateContext. Before:";
-    qDebug() << _qmlContext->contextProperty("translationResultsModel");
-    _qmlContext->setContextProperty("translationResultsModel", QVariant::fromValue(_translationsList));
-    qDebug() << "after:";
-    qDebug() << _qmlContext->contextProperty("translationResultsModel");
+    emit UpdateTranslations(QVariant::fromValue(_translationsList));
 }
 
 void DictQueryCore::ClearLanguagesList()
@@ -133,6 +126,5 @@ void DictQueryCore::UpdateLanguageContext()
 
     qDebug() << "UpdateContext. number of languages after:" << _availableLanguagesListModel.size();
 
-    _qmlContext->setContextProperty("languageSelectorModel",
-                                    QVariant::fromValue(_availableLanguagesListModel));
+    emit UpdateLanguages(QVariant::fromValue(_availableLanguagesListModel));
 }
