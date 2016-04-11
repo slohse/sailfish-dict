@@ -16,6 +16,14 @@ DictQueryCore::DictQueryCore(QObject *parent) :
     emit UpdateTranslations(QVariant::fromValue(_translationsList));
 }
 
+/*
+DictQueryCore::DictQueryCore(DictQueryCore const & other) :
+    QObject(other.parent()),
+
+{
+
+}
+*/
 DictQueryCore::~DictQueryCore()
 {
     ClearTranslationsList();
