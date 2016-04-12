@@ -22,8 +22,8 @@ public:
     QList<QObject *> & GetTranslationsList();
 
 signals:
-    Q_INVOKABLE void updateTranslations(QVariant translations);
-    Q_INVOKABLE void updateLanguages(QVariant languages);
+    void updateTranslations(QVariant translations);
+    void updateLanguages(QVariant languages);
 
 public slots:
     void ChangeLanguage(QString languageTuple);
