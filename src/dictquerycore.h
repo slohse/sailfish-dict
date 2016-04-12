@@ -17,20 +17,18 @@ class DictQueryCore : public QObject
 public:
     explicit DictQueryCore(QObject *parent = 0);
 
-    DictQueryCore(DictQueryCore const & other);
-
     virtual ~DictQueryCore();
 
     QList<QObject *> & GetTranslationsList();
 
 signals:
-    Q_INVOKABLE void UpdateTranslations(QVariant translations);
-    Q_INVOKABLE void UpdateLanguages(QVariant Languages);
+    Q_INVOKABLE void updateTranslations(QVariant translations);
+    Q_INVOKABLE void updateLanguages(QVariant languages);
 
 public slots:
     void ChangeLanguage(QString languageTuple);
-    void Search(QString searchTerm);
-    void TypingEvent(QString searchTerm);
+    void search(QString searchTerm);
+    void typingEvent(QString searchTerm);
     void UpdateLanguageTuples(QSet<LanguageTuple *> languages);
 
 private slots:
@@ -48,6 +46,5 @@ private:
     void ClearLanguagesSet();
     void UpdateLanguageContext();
 };
-Q_DECLARE_METATYPE(DictQueryCore)
 
 #endif // DICTQUERYCORE_H

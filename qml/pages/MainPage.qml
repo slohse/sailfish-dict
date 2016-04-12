@@ -8,8 +8,6 @@ import dictquery 1.0
 Page {
     id: mainPage
 
-    property DictQueryCore dictQueryCore
-
     Column {
         anchors.fill: parent
 
@@ -17,7 +15,11 @@ Page {
 
         SearchBar {
             id: mainSearchBar
-            onSearchRequested: console.log("SearchBar StartSearch clicked")
+            onSearchRequested: {
+                console.log("SearchBar StartSearch clicked")
+                dictQueryCore.search(term)
+            }
+            onSearchTextChanged: dictQueryCore.typingEvent(term)
         }
 
         ResultsList {
@@ -25,13 +27,13 @@ Page {
             height: rootWindow.height - mainSearchBar.height
             width: parent.width
         }
+    }
 
-        Component.onCompleted: {
-            mainSearchBar.searchRequested.connect(dictQueryCore.Search)
-            mainSearchBar.searchTextChanged.connect(dictQueryCore.TypingEvent)
-            dictQueryCore.UpdateTranslations.connect(results.updateResults)
-            dictQueryCore.UpdateLanguages.connect(mainSearchBar.updateLanguages)
-        }
+    DictQueryCore
+    {
+        id: dictQueryCore
+        onUpdateLanguages: mainSearchBar.updateLanguages(languages)
+        onUpdateTranslations: results.updateResults(translations)
     }
 }
 

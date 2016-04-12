@@ -13,17 +13,9 @@ DictQueryCore::DictQueryCore(QObject *parent) :
     QObject::connect(&_dictCcProvider, SIGNAL(LanguagePoolUpdated(QSet<LanguageTuple*>)),
                      this, SLOT(UpdateLanguageTuples(QSet<LanguageTuple*>)));
 
-    emit UpdateTranslations(QVariant::fromValue(_translationsList));
+    emit updateTranslations(QVariant::fromValue(_translationsList));
 }
 
-/*
-DictQueryCore::DictQueryCore(DictQueryCore const & other) :
-    QObject(other.parent()),
-
-{
-
-}
-*/
 DictQueryCore::~DictQueryCore()
 {
     ClearTranslationsList();
@@ -41,13 +33,13 @@ void DictQueryCore::ChangeLanguage(QString languageTuple)
 
 }
 
-void DictQueryCore::Search(QString searchTerm)
+void DictQueryCore::search(QString searchTerm)
 {
     ClearTranslationsList();
     _dictCcProvider.Query(searchTerm);
 }
 
-void DictQueryCore::TypingEvent(QString searchTerm)
+void DictQueryCore::typingEvent(QString searchTerm)
 {
 
 }
@@ -81,7 +73,7 @@ void DictQueryCore::ReceiveTranslationResults(QList<SingleTranslationItem *> tra
         qDebug() << item->queryTerm() << " <-> " << item->definition();
     }
 
-    emit UpdateTranslations(QVariant::fromValue(_translationsList));
+    emit updateTranslations(QVariant::fromValue(_translationsList));
 }
 
 void DictQueryCore::ClearTranslationsList()
@@ -93,7 +85,7 @@ void DictQueryCore::ClearTranslationsList()
         deleteMe->deleteLater();
     }
 
-    emit UpdateTranslations(QVariant::fromValue(_translationsList));
+    emit updateTranslations(QVariant::fromValue(_translationsList));
 }
 
 void DictQueryCore::ClearLanguagesList()
@@ -134,5 +126,5 @@ void DictQueryCore::UpdateLanguageContext()
 
     qDebug() << "UpdateContext. number of languages after:" << _availableLanguagesListModel.size();
 
-    emit UpdateLanguages(QVariant::fromValue(_availableLanguagesListModel));
+    emit updateLanguages(QVariant::fromValue(_availableLanguagesListModel));
 }
