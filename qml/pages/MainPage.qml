@@ -33,7 +33,10 @@ Page {
     {
         id: dictQueryCore
         onUpdateLanguages: mainSearchBar.updateLanguages(languages)
-        onUpdateTranslations: results.updateResults(translations)
+        onUpdateTranslations: {
+            console.log("got ", translations.length, " items")
+            results.updateResults(translations)
+        }
     }
 }
 

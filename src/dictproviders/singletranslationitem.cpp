@@ -5,10 +5,18 @@ SingleTranslationItem::SingleTranslationItem(QObject *parent) : QObject(parent)
 
 }
 
+SingleTranslationItem::SingleTranslationItem(SingleTranslationItem const & other) :
+    QObject(other.parent()),
+    _queryTerm(other._queryTerm),
+    _definition(other._definition)
+{
+
+}
+
 SingleTranslationItem::SingleTranslationItem(QString const & queryTerm, QString const & definition, QObject *parent) :
     QObject(parent),
-    m_queryTerm(queryTerm),
-    m_definition(definition)
+    _queryTerm(queryTerm),
+    _definition(definition)
 {
 
 }
@@ -16,29 +24,29 @@ SingleTranslationItem::SingleTranslationItem(QString const & queryTerm, QString 
 
 void SingleTranslationItem::setQueryTerm(QString queryTerm)
 {
-    if(m_queryTerm != queryTerm)
+    if(_queryTerm != queryTerm)
     {
-        m_queryTerm = queryTerm;
-        emit queryTermChanged(m_queryTerm);
+        _queryTerm = queryTerm;
+        emit queryTermChanged(_queryTerm);
     }
 }
 
 void SingleTranslationItem::setDefinition(QString definition)
 {
-    if(m_definition != definition)
+    if(_definition != definition)
     {
-        m_definition = definition;
-        emit definitionChanged(m_definition);
+        _definition = definition;
+        emit definitionChanged(_definition);
     }
 }
 
 QString SingleTranslationItem::queryTerm() const
 {
-    return m_queryTerm;
+    return _queryTerm;
 }
 
 QString SingleTranslationItem::definition() const
 {
-    return m_definition;
+    return _definition;
 }
 

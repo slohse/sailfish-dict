@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+import dictquery 1.0
+
 import "../delegates/SingleTranslation"
 
 Rectangle {
@@ -28,6 +30,7 @@ Rectangle {
 
     function updateResults(results)
     {
+        console.log("updateResults, length: ", results.length)
         translationResultsModel = results
     }
 

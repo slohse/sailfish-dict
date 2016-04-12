@@ -12,6 +12,7 @@ class SingleTranslationItem : public QObject
 
 public:
     explicit SingleTranslationItem(QObject *parent = 0);
+    SingleTranslationItem(SingleTranslationItem const & other);
 
     SingleTranslationItem(QString const & queryTerm, QString const & definition, QObject *parent = 0);
 
@@ -25,8 +26,9 @@ signals:
     void definitionChanged(QString);
 
 private:
-    QString m_queryTerm;
-    QString m_definition;
+    QString _queryTerm;
+    QString _definition;
 };
+Q_DECLARE_METATYPE(SingleTranslationItem)
 
 #endif // SINGLETRANSLATIONITEM_H
