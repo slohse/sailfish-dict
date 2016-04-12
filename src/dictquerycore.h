@@ -26,7 +26,7 @@ signals:
     void updateLanguages(QVariant languages);
 
 public slots:
-    void ChangeLanguage(QString languageTuple);
+    void changeLanguage(QString languageTuple);
     void search(QString searchTerm);
     void typingEvent(QString searchTerm);
     void UpdateLanguageTuples(QSet<LanguageTuple *> languages);

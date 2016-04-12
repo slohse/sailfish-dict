@@ -28,9 +28,10 @@ QList<QObject *> & DictQueryCore::GetTranslationsList()
     return _translationsList;
 }
 
-void DictQueryCore::ChangeLanguage(QString languageTuple)
+void DictQueryCore::changeLanguage(QString languageTuple)
 {
-
+    qDebug() << "changeLanguage " << languageTuple;
+    _dictCcProvider.setLanguageTuple(languageTuple);
 }
 
 void DictQueryCore::search(QString searchTerm)

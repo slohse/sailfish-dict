@@ -145,9 +145,19 @@ void DictCC::ExtractSuggestions()
 
 QUrl DictCC::BuildUrl(QString const & LanguageTuple, QString const & SearchTerm)
 {
-    QString UrlDomain(LanguageTuple);
+    QString UrlDomain("");
+
+    if(LanguageTuple.length() > 0)
+    {
+        UrlDomain.append(LanguageTuple);
+        UrlDomain.append(".");
+    }
+
+    qDebug() << UrlDomain;
 
     UrlDomain.append(UrlHost);
+
+    qDebug() << UrlDomain;
 
     QUrl SearchUrl;
 

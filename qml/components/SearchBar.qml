@@ -8,15 +8,13 @@ Item {
     id: translationSearchBar
     signal searchRequested(string term)
     signal searchTextChanged(string term)
-    //signal languageTupleChanged(string tuple)
+    signal languageTupleChanged(string tuple)
     anchors.left: parent.left
     anchors.right: parent.right
 
     height: childrenRect.height
 
     property var languageSelectorModel : []
-
-//    property var languageSelectorModel : [ { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"}, { tuple: "----", prettyPrint: "-----"} ]
 
     TextField {
         id: queryInput
@@ -44,13 +42,11 @@ Item {
             Repeater {
                 width: parent.width
                 model: languageSelectorModel
-                // TODO: hier weiter machen
                 MenuItem { text: modelData.prettyPrint }
             }
-
-//            MenuItem { text: "DE ↔ EN" }
-//            MenuItem { text: "DE ↔ SV" }
         }
+
+        onValueChanged: translationSearchBar.languageTupleChanged(languageSelectorModel[currentIndex].tuple)
 
         //onValueChanged: translationSearchBar.languageTupeChanged(menu.data)
     }

@@ -30,7 +30,6 @@ Rectangle {
 
     function updateResults(results)
     {
-        console.log("updateResults, length: ", results.length)
         translationResultsModel = results
     }
 

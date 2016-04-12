@@ -16,10 +16,10 @@ Page {
         SearchBar {
             id: mainSearchBar
             onSearchRequested: {
-                console.log("SearchBar StartSearch clicked")
                 dictQueryCore.search(term)
             }
             onSearchTextChanged: dictQueryCore.typingEvent(term)
+            onLanguageTupleChanged: dictQueryCore.changeLanguage(tuple)
         }
 
         ResultsList {
@@ -33,10 +33,7 @@ Page {
     {
         id: dictQueryCore
         onUpdateLanguages: mainSearchBar.updateLanguages(languages)
-        onUpdateTranslations: {
-            console.log("got ", translations.length, " items")
-            results.updateResults(translations)
-        }
+        onUpdateTranslations: results.updateResults(translations)
     }
 }
 
