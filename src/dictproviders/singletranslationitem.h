@@ -1,6 +1,7 @@
 #ifndef SINGLETRANSLATIONITEM_H
 #define SINGLETRANSLATIONITEM_H
 
+#include <QString>
 #include <QObject>
 
 class SingleTranslationItem : public QObject

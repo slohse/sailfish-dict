@@ -16,8 +16,8 @@ Rectangle {
         model: translationResultsModel
         delegate: Dictionary
         {
-            lang1Term: queryTerm
-            lang2Term: definition
+            lang1Term: modelData.queryTerm
+            lang2Term: modelData.definition
             width: parent.width
         }
 //        delegate: Boxes
